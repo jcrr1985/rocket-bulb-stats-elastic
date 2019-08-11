@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/jquery.gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenMax.min.js"></script>
+<script src="js/splitText.min.js"></script>
+<script src="js/anime.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">	
+		
+<script>
+
+</script>
+<style>
+	
+	body{
+		width: 100%;
+		height: 100vh;
+		background-image: url("img/bgImg.png"); 
+	}
+	body * {
+		box-sizing: border-box;
+	}
+	
+	.scaledTopIcons{
+		transform: scale(.6)
+	}
+	.marUpIcons{
+		margin: 15px;
+		z-index: 999999;
+		opacity: 0;
+	}
+
+	.padIcons {
+		width: 150px;
+    height: 150px;
+	}
+	
+	.center-flex {
+  	display: flex;
+	  align-items: center;
+	  justify-content: center;
+	}	
+	
+
+	.bgx{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+		width: 150px;
+		height: 150px;
+	}
+	
+	.path {
+		  stroke-dasharray: 1000;
+		  stroke-dashoffset: 1000;
+		  animation: dash 7s linear forwards;
+		}
+	
+	.pathBig {
+		  stroke-dasharray: 10000;
+		  stroke-dashoffset: 10000;
+		  animation: dash 22s linear 3s forwards;
+		}
+
+
+	@keyframes dash {
+	  to {
+		stroke-dashoffset: 0;
+	  }
+	}
+
+	/* square small*/
+	.squareSmall {
+  background: transparent;
+  display: block;
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  margin: -40px auto auto -40px;
+  visibility:hidden;
+}
+
+.l1,.l2,.l3,.l4 {
+  position: absolute;
+  background: transparent;
+  width: 0px;
+  height: 0px;
+  /*give each border a background color of black in css so that you don't need to animate it*/
+  background-color:white;
+  
+}
+
+
+.l1 {
+  left: 0;
+  bottom: 0;
+  height: 80px;
+  width: 1px;
+}
+
+.l2 {
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 1px;
+  
+}
+
+.l3 {
+  right: 0;
+  top: 0;
+  height: 80px;
+  width: 1px;
+  
+}
+
+.l4 {
+  bottom: 0;
+  right: 0;
+  width: 80px;
+  height: 1px;
+ 
+}
+
+/* square Big*/
+	.squareBig {
+  background: transparent;
+  display: block;
+  /*width: 80px;
+  height: 80px;*/
+  position: absolute;
+  /*top: 50%;
+  left: 50%;
+  margin: -40px auto auto -40px;*/
+  visibility:hidden;
+}
+
+.lb1,.lb2,.lb3,.lb4 {
+  position: absolute;
+  background: transparent;
+  width: 0px;
+  height: 0px;
+  /*give each border a background color of black in css so that you don't need to animate it*/
+  background-color:white;
+  
+}
+
+
+.lb1 {
+  left: 0;
+  bottom: 0;
+  height: 80px;
+  width: 1px;
+}
+
+.lb2 {
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 1px;
+  
+}
+
+.lb3 {
+  right: 0;
+  top: 0;
+  height: 80px;
+  width: 1px;
+  
+}
+
+.lb4 {
+  bottom: 0;
+  right: 0;
+  width: 80px;
+  height: 1px;
+ 
+}
+
+/* circle join*/
+#divCirc {
+		border-radius: 50%;
+		background: #00338D;
+		width: 1px;
+		height: 1px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-transform: uppercase;
+		font-weight: 800;
+		color:#fff;
+		position: absolute;
+		top: 50%;
+		left:-10%;
+		transform: translate(-50%,-50%);
+		opacity: .3;
+		cursor: pointer;
+		z-index: 999999;
+    }
+
+
+/**/
+
+.texExp {
+	color: white;
+	padding: 20px;
+	position: relative;
+}
+
+.exp {
+	margin: 30px;
+}
+
+.icons {
+	padding-top: 30px;
+}
+
+.active {
+	display: flex;
+}
+
+.inactive {
+	display: none;
+}
+
+
+.bgx, .marUpIcons{
+		cursor: pointer;
+}
+
+.square {
+  position: absolute;
+  left: -150px;
+  width: 150px;
+  height: 150px;
+  border: 1px solid white;
+  background-color: transparent;
+  border-radius: 15%;
+	border-style: dashed;
+ }
+
+</style>
+</head>
+<body>
+	
+<div class="container-fluid">
+	<div id="divCirc">join</div>
+	<div id="functionBasedDuration">		
+	  <div class="line" >
+		<div id="dash1" class="small square el1"></div>
+	  </div>
+	  <div class="line">
+		<div  id="dash2"  class="small square el2"></div>
+	  </div>
+	  <div class="line">
+		<div id="dash3" class="small square el3"></div>
+	  </div>
+	  <div class="line">
+		<div id="dash4" class="small square el4"></div>
+	  </div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12 col-md-2" style="height: 150px;">
+			<div class="squareSmall">
+			  <span class="l1"></span>
+			  <span class="l2"></span>
+			  <span class="l3"></span>
+			  <span class="l4"></span>		  
+			</div>
+		</div>		
+		<div class="col-sm-12 col-md-10">
+				<div class="row">	
+					<div class="col-xs-12 col-sm-4 col-md-12 icons">
+						<div class="row">		
+								<div class="col-6 col-sm-12 col-md-3 ">
+										<div id= "icon1" class="center-flex" onclick="changeText('#texRoc', 'Roc', 0)">
+											<img id="iconBg1" src="img/bgIconsRect.svg" class="bgx" alt="">
+											<img src="img/rocketico.svg " alt="a rocket" class="marUpIcons scaledTopIcons">
+										</div>
+								</div>
+
+								<div class="col-6 col-sm-12 col-md-3">
+										<div id= "icon2" class="center-flex" onclick="changeText('#texInc', 'Inc', 0)">
+											<img id="iconBg2" src="img/bgIconsRect.svg" class="bgx" alt="">
+											<img src="img/increase.svg" alt="increasing money stats" class="marUpIcons scaledTopIcons">
+										</div>
+								</div>
+								<div class="col-6 col-sm-12 col-md-3">
+										<div id= "icon3" class="center-flex" onclick="changeText('#texBul', 'Bul', 0)">
+											<img  id="iconBg3" src="img/bgIconsRect.svg" class="bgx" alt="">
+											<img src="img/bulb.svg" alt="A bulb" class="marUpIcons scaledTopIcons">
+										</div>
+								</div>
+								<div class="col-6 col-sm-12 col-md-3">
+										<div id= "icon4" class="center-flex" onclick="changeText('#texBro', 'Bro', 0)">
+											<img id="iconBg4" src="img/bgIconsRect.svg" class="bgx" alt="">
+											<img src="img/browser.svg" alt="Browser showing stats" class="marUpIcons scaledTopIcons">
+										</div>
+								</div>
+							</div>
+						</div>
+
+					<div class="col-xs-12 col-sm-8 col-md-12">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="squareBig">
+								  <span class="lb1"></span>
+								  <span class="lb2"></span>
+								  <span class="lb3"></span>
+								  <span class="lb4"></span>		  
+								</div>
+								<!-- SECTION TEXT ROCKET -->
+								<div class = "row exp active" id= "texRoc">
+									<div class="col-md-4" id="conTexRoc1">
+										<p class="texExp"  id= "textRoc1">
+											<b>Rocket Rocket Rocket Rocket Rocket Rocket Rocket Rocket Rocket Rocket</b>
+											tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+											quis nostrud exercitation ullamco laboris nisi.
+										</p>
+									</div>
+									<div class="col-md-4" id = "conTexRoc2">
+										<p class="texExp"   id= "textRoc2">
+											<b>Rocket Rocket Rocket Rocket Rocket Rocket Rocket Rocket Rocket Rocket</b>
+											tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+											quis nostrud exercitation ullamco laboris nisi .
+										</p>
+									</div>
+
+									<div class="col-md-4" id ="conTexRoc3">
+										<p class="texExp" id= "textRoc3">
+											<b>Rocket Rocket Rocket Rocket Rocket Rocket Rocket Rocket Rocket Rocket</b>
+											tempor incididunt ut labore et dolore magna aliqua. .
+										</p>
+									</div>							
+								</div>
+								<!-- SECTION TEXT INCREASE -->
+								<div class = "row exp  inactive" id= "texInc">
+									<div class="col-md-4" id="conTexInc1">
+										<p class="texExp" id= "textInc1">
+											<b>Increase Increase Increase Increase Increase Increase Increase Increase Increase</b>
+											tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+											quis nostrud exercitation ullamco laboris nisi ut .
+										</p>
+									</div>
+									<div class="col-md-4" id="conTexInc2">
+										<p class="texExp" id="textInc2">
+											<b>Increase Increase Increase Increase Increase Increase Increase Increase Increase</b>
+											tempor incididunt ut labore et dolore magna aliqua..
+										</p>
+									</div>
+
+									<div class="col-md-4" id="conTexInc3">
+										<p class="texExp" id="textInc3">
+											<b>Increase Increase Increase Increase Increase Increase Increase Increase Increase</b>
+											tempor incididunt ut labore et dolore magna aliqua. .
+										</p>
+									</div>							
+								</div>
+
+								<!-- SECTION TEXT BULB -->
+								<div class = "row exp  inactive" id= "texBul">
+									<div class="col-md-4" id="conTexBul1">
+										<p class="texExp" id="textBul1">
+											<b>Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb </b>
+											tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+											quis nostrud exercitation ullamco laboris nisi ut.
+										</p>
+									</div>
+									<div class="col-md-4" id="conTexBul2">
+										<p class="texExp" id="textBul2" >
+											<b>Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb </b>
+											tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+											quis nostrud exercitation ullamco laboris nisi 
+										</p>
+									</div>
+
+									<div class="col-md-4" id="conTexBul3">
+										<p class="texExp"  id="textBul3">
+											<b>Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb Bulb </b>
+											tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+											quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+											consequat. 
+										</p>
+									</div>							
+								</div>
+
+								<!-- SECTION TEXT BROWSER -->
+								<div class = "row exp  inactive" id= "texBro">
+									<div class="col-md-4" id="conTexBro1">
+										<p class="texExp"  id="textBro1">
+											<b>Browser Browser Browser Browser Browser Browser Browser Browser Browser</b>
+											tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+											quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+											consequat.
+										</p>
+									</div>
+									<div class="col-md-4" id="conTexBro2">
+										<p class="texExp" id="textBro2">
+											<b>Browser Browser Browser Browser Browser Browser Browser Browser Browser</b>
+											tempor incididunt ut labore et dolore magna aliqua. 
+										</p>
+									</div>
+									<div class="col-md-4" id="conTexBro3">
+										<p class="texExp" id="textBro3">
+											<b>Rocket Rocket Rocket Rocket Rocket Rocket Rocket Rocket Rocket Rocket</b>
+											tempor incididunt ut labore et dolore magna aliqua. 
+										</p>
+									</div>							
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+<script>
+
+TweenLite.defaultEase = Linear.easeNone;
+
+//show the square only once js has run
+//visibility set to hidden in css panel
+TweenLite.set(".squareSmall", {visibility:"visible"});
+
+
+
+var tl = new TimelineLite();
+tl.fromTo(".l1", 1, {height:0}, {height:80})
+.fromTo(".l2", 4, {width:0, backgroundColor:"white"}, {width:80, backgroundColor:"white"})
+.fromTo(".l3", 1, {height:0}, {height:80})
+.fromTo(".l4", 1, {width:0}, {width:80});
+
+tl.timeScale(4); //play faster
+ 
+
+var join = $('#divCirc');
+TweenLite.to(join, 3, {height: "140",width: "140px", left:"50%", opacity: .5, ease:Power3.easeOut});
+TweenLite.to(join, .8, {height: "70",width: "70px",opacity: 1, top: $('.squareSmall').position().top, left:$('.squareSmall').position().left, delay:1.5, ease:Power4.easeIn});
+
+$('.squareBig').height($('.exp.active').height());
+$('.squareBig').width($('.exp.active').width());
+$('.squareBig').css('marginTop', $('.exp.active').css('marginTop') );
+$('.squareBig').css('marginLeft', $('.exp.active').css('marginTop') );
+
+$('.lb12, .lb4').width($('.exp.active').width());
+$('.lb1, .lb3').height($('.exp.active').height());
+TweenLite.set(".squareBig", {visibility:"visible"});
+
+var tlb = new TimelineLite();
+tlb.delay(10);
+tlb.fromTo(".lb1", 1, {height:0}, {height:$('.exp.active').height()})
+.fromTo(".lb2", 4, {width:0, backgroundColor:"white"}, {width:$('.exp.active').width(), backgroundColor:"white"})
+.fromTo(".lb3", 1, {height:0}, {height:$('.exp.active').height()})
+.fromTo(".lb4", 1, {width:0}, {width:$('.exp.active').width()});
+
+$('#dash1').css('top', $('#iconBg1').offset().top);
+$('#dash2').css('top', $('#iconBg2').offset().top);
+$('#dash3').css('top', $('#iconBg3').offset().top);
+$('#dash4').css('top', $('#iconBg4').offset().top);
+
+/*AnimeJS*/
+setTimeout(function() {
+		var functionBasedDuration = anime({
+		  targets: '#functionBasedDuration .el1',
+		  translateX: $('#iconBg1').offset().left + 150,
+		  direction: 'alternate',
+		  loop: false,
+		  delay:2500,	
+		  duration: function(el, i, l) {
+			return 3200 + (i * 5000);
+		  }
+		});	
+		
+		functionBasedDuration = anime({
+		  targets: '#functionBasedDuration .el2',
+		  translateX: $('#iconBg2').offset().left  + 150,
+		  direction: 'alternate',
+		  loop: false,
+		  delay:2800,
+		  duration: function(el, i, l) {
+			return 3200 + (i * 5000);
+		  }
+		});	
+		
+		functionBasedDuration = anime({
+		  targets: '#functionBasedDuration .el3',
+		  translateX: $('#iconBg3').offset().left + 150,
+		  direction: 'alternate',
+		  loop: false,
+		  delay:3100,
+		  duration: function(el, i, l) {
+			return 3200 + (i * 5000);
+		  }
+		});	
+		
+		functionBasedDuration = anime({
+		  targets: '#functionBasedDuration .el4',
+		  translateX: $('#iconBg4').offset().left + 150,
+		  direction: 'alternate',
+		  loop: false,
+		  delay:3400,
+		  duration: function(el, i, l) {
+			return 3200 + (i * 5000);
+		  }
+		}, 1000);	
+})
+
+tlb.timeScale(4) //play faster
+
+var CSStransforms = anime({
+		  targets: '#icon1 .marUpIcons',
+		  rotate: '1turn',
+		  scale: .6,
+		  opacity: 1,
+		  delay: 4500
+		});
+
+		var CSStransforms = anime({
+		  targets: '#icon2 .marUpIcons',
+		  rotate: '1turn',
+		  scale: .6,
+		  opacity: 1,
+		  delay: 5500
+		});
+
+		var CSStransforms = anime({
+		  targets: '#icon3 .marUpIcons',
+		  rotate: '1turn',
+		  scale: .6,
+		  opacity: 1,
+		  delay: 6500
+		});
+
+		var CSStransforms = anime({
+		  targets: '#icon4 .marUpIcons',
+		  rotate: '1turn',
+		  scale: .6,
+		  opacity: 1,
+		  delay: 7500
+		});
+
+		
+$(window).resize(function(){
+
+	$('#divCirc').css('top', $('.squareSmall').position().top + 'px');
+	$('#divCirc').css('left', $('.squareSmall').position().left + 'px');
+
+	$('.squareBig').height($('.exp.active').height());
+	$('.squareBig').width($('.exp.active').width());
+	$('.squareBig').css('marginTop', $('.exp.active').css('marginTop') );
+	$('.squareBig').css('marginLeft', $('.exp.active').css('marginTop') );
+	$('.lb2, .lb4').width($('.exp.active').width());
+	$('.lb1, .lb3').height($('.exp.active').height());
+
+	$('.square').css('transform', 'none');
+	$('#dash1').css('top', $('#iconBg1').offset().top);
+	$('#dash2').css('top', $('#iconBg2').offset().top);
+	$('#dash3').css('top', $('#iconBg3').offset().top);
+	$('#dash4').css('top', $('#iconBg4').offset().top);
+
+	$('#dash1').css('left', $('#iconBg1').offset().left);
+	$('#dash2').css('left', $('#iconBg2').offset().left);
+	$('#dash3').css('left', $('#iconBg3').offset().left);
+	$('#dash4').css('left', $('#iconBg4').offset().left);
+
+});
+
+function random(min, max){
+	return (Math.random() * (max - min)) + min;
+}
+
+function changeText(id, fra, delay) {
+	$('.exp').removeClass('active');
+	$('.exp').addClass('inactive');
+	$(id).removeClass('inactive');
+	$(id).addClass('active');
+
+	var firstCol= $("#text" + fra + "1");
+	var secondCol= $("#text"  + fra + "2");
+	var thirdCol= $("#text"  + fra + "3");
+
+	var split1 = new SplitText(firstCol);
+
+$(split1.chars).each(function(i){
+	var TM1 = new TimelineLite();
+	TM1.add("wait2seconds", "+=" + delay); 
+	TM1.from($(this), 1.5, {
+		opacity: 0,
+		x: random(-500, 500),
+		y: random(-500, 500),
+		z: random(-500, 500),
+		scale: .1,
+		delay: i * .01,
+		yoyo: false
+	}, "wait2seconds"
+	);
+});
+
+var split2 = new SplitText(secondCol);
+
+$(split2.chars).each(function(i){
+	var TM2 = new TimelineLite();
+	TM2.add("wait2seconds", "+=" + delay); 
+	TM2.from($(this), 1.5, {
+		opacity: 0,
+		x: random(-500, 500),
+		y: random(-500, 500),
+		z: random(-500, 500),
+		scale: .1,
+		delay: i * .01,
+		yoyo: false
+	}, "wait2seconds");
+});
+
+
+var split3 = new SplitText(thirdCol);
+$(split3.chars).each(function(i){
+	var TM3 = new TimelineLite();
+	TM3.add("wait2seconds", "+=" + delay); 
+	TM3.from($(this),1.5, {
+		opacity: 0,
+		x: random(-500, 500),
+		y: random(-500, 500),
+		z: random(-500, 500),
+		scale: .1,
+		delay: i * .01,
+		yoyo: false
+	}, "wait2seconds");
+});
+
+	
+}		
+
+changeText('#texRoc', 'Roc', 4);
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+</body>
+</html>
